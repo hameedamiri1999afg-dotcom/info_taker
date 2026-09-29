@@ -1,0 +1,12 @@
+{
+  "name": "hzr-device-center",
+  "version": "1.0.0",
+  "description": "HZR Device Center",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
